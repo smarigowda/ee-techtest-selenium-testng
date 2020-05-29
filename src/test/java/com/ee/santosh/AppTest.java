@@ -1,38 +1,34 @@
 package com.ee.santosh;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
+import java.util.concurrent.TimeUnit;
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
+public class AppTest {
+    @Test
+    public void Test1() throws InterruptedException {
+        //setup the chromedriver using WebDriverManager
+        WebDriverManager.chromedriver().setup();
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+        //Create driver object for Chrome
+        WebDriver driver = new ChromeDriver();
+
+        //Navigate to a URL
+        driver.get("http://hotel-test.equalexperts.io/");
+
+        // Wait until the page shows up
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".jumbotron")));
+
+        Thread.sleep(2000);
+        //quit the browser
+        driver.quit();
     }
 }
