@@ -19,12 +19,17 @@ public class AppTest {
 
         //Create driver object for Chrome
         WebDriver driver = new ChromeDriver();
+;
+        // Setup an implicit wait of 10 sec
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         //Navigate to a URL
         driver.get("http://hotel-test.equalexperts.io/");
 
         // Wait until the page shows up
         WebDriverWait wait = new WebDriverWait(driver, 10);
+
+        // Explicitly wait for the heading to be present on the page
         WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".jumbotron")));
 
         Thread.sleep(2000);
