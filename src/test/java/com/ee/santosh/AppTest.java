@@ -41,7 +41,7 @@ public class AppTest {
                 .setFirstName("Santosh")
                 .setLastName("Marigowda")
                 .setTotalPrice("100")
-                .setDeposit("false")
+                .setDeposit("true")
                 .setCheckinDate("2020-05-20")
                 .saveBooking();
 
