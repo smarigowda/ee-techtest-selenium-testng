@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
@@ -26,8 +27,13 @@ public class AppTest {
         homePage
                 .open("http://hotel-test.equalexperts.io/")
                 .setCheckinDate("2020-05-20")
-                .setCheckoutDate("2020-05-28");
+                .setCheckoutDate("2020-05-28")
+                .setFirstName("Santosh")
+                .setLastName("Marigowda")
+                .setTotalPrice("100");
 
+        Select depositSelector = new Select(driver.findElement(By.cssSelector("#depositpaid")));
+        depositSelector.selectByVisibleText("true");
         Thread.sleep(5000);
 
         //quit the browser

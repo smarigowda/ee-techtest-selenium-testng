@@ -11,6 +11,10 @@ public class HomePage {
     String headingSelector = ".jumbotron";
     String checkinDateSelector = "#checkin";
     String checkoutDateSelector = "#checkout";
+    String firstNameSelector = "#firstname";
+    String surnameSelector = "#lastname";
+    String totalpriceSelector = "#totalprice";
+    String depositpaidSelector = "#depositpaid";
 
     HomePage(WebDriver driver) {
         this.driver = driver;
@@ -34,6 +38,24 @@ public class HomePage {
     public HomePage setCheckoutDate(String checkoutDate) {
         WebElement dateBox = driver.findElement(By.cssSelector(this.checkoutDateSelector));
         dateBox.sendKeys(checkoutDate);
+        return this;
+    }
+
+    public HomePage setFirstName(String firstName) {
+        WebElement element = driver.findElement(By.cssSelector(this.firstNameSelector));
+        element.sendKeys(firstName);
+        return this;
+    }
+
+    public HomePage setLastName(String lastName) {
+        WebElement element = driver.findElement(By.cssSelector(this.surnameSelector));
+        element.sendKeys(lastName);
+        return this;
+    }
+
+    public HomePage setTotalPrice(String  totalPrice) {
+        WebElement element = driver.findElement(By.cssSelector(this.totalpriceSelector));
+        element.sendKeys(totalPrice);
         return this;
     }
 }
