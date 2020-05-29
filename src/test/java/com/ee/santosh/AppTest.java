@@ -19,20 +19,17 @@ public class AppTest {
 
         //Create driver object for Chrome
         WebDriver driver = new ChromeDriver();
-;
         // Setup an implicit wait of 10 sec
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        //Navigate to a URL
-        driver.get("http://hotel-test.equalexperts.io/");
+        HomePage homePage = new HomePage(driver);
+        homePage
+                .open("http://hotel-test.equalexperts.io/")
+                .setCheckinDate("2020-05-20")
+                .setCheckoutDate("2020-05-28");
 
-        // Wait until the page shows up
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        Thread.sleep(5000);
 
-        // Explicitly wait for the heading to be present on the page
-        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".jumbotron")));
-
-        Thread.sleep(2000);
         //quit the browser
         driver.quit();
     }
