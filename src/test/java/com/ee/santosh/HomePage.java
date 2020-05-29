@@ -3,7 +3,6 @@ package com.ee.santosh;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -25,11 +24,10 @@ public class HomePage {
 
     HomePage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(this.driver, 600000);
+        wait = new WebDriverWait(this.driver, 120000);
     }
 
     public HomePage deleteOrder() {
-        WebDriverWait wait = new WebDriverWait(this.driver, 2);
         try {
             WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(this.deleteButtonSelector)));
             element.click();
@@ -47,8 +45,9 @@ public class HomePage {
         return this;
     }
 
-    public HomePage verifyOrderCountToBe(int expectedCount) throws InterruptedException {
+    public HomePage verifyOrderCountToBe(int expectedCount) throws Exception {
         int i = 0;
+        int totalAttempts = 10;
         do {
             try {
                 List<WebElement> el = driver.findElements(By.cssSelector(this.deleteButtonSelector));
@@ -58,8 +57,11 @@ public class HomePage {
             } catch (Exception e) {
                 System.out.println("retrying method ...");
             }
-            Thread.sleep(2000);
-        } while(++i < 5);
+            Thread.sleep(250);
+        } while(++i < totalAttempts);
+        if( i == totalAttempts) {
+            throw new Exception("verifyOrderCount failed...!");
+        }
         return this;
     }
 
@@ -76,7 +78,6 @@ public class HomePage {
     private void waitUntilSave() {
         wait.until((WebDriver driver) -> {
             WebElement saveButton = driver.findElement(By.cssSelector(this.saveButtonSelector));
-            // ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", saveButton);
             saveButton.click();
             String firstname = util.runJS(driver, "return document.getElementById('firstname').value;");
             return firstname.equals("");
@@ -141,11 +142,6 @@ public class HomePage {
         this.waitUntilSave();
         boolean isOrderCreated = this.isOrderCreatedSuccessfully();
         Assert.assertEquals(isOrderCreated, true);
-        return this;
-    }
-
-    public HomePage waitFor(long milliSeconds) throws InterruptedException {
-        Thread.sleep(milliSeconds);
         return this;
     }
 }

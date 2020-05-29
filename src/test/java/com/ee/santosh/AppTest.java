@@ -15,7 +15,7 @@ public class AppTest {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().deleteAllCookies();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         homePage = new HomePage(driver);
         homePage
                 .open(url)
@@ -82,6 +82,7 @@ public class AppTest {
                 .saveBooking()
                 .verifyOrderCountToBe(2)
                 .deleteOrder()
+                .verifyOrderCountToBe(1)
                 .deleteOrder()
                 .verifyOrderCountToBe(0);
     }
