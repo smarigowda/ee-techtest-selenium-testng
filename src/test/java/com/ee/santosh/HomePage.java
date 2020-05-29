@@ -17,6 +17,7 @@ public class HomePage {
     String depositpaidSelector = "#depositpaid";
     String saveButtonSelector = "input[type=button]";
     String deleteButtonSelector = "input[value=Delete]";
+    Utility util = new Utility();
 
     HomePage(WebDriver driver) {
         this.driver = driver;
@@ -33,19 +34,7 @@ public class HomePage {
         return this;
     }
 
-    private void waitForJS(String jsCode, String expectedValue) throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        for(int i=0; i < 10; i++) {
-            String sText =  js.executeScript(jsCode).toString();
-            if(sText.equals(expectedValue)) {
-                break;
-            }
-            System.out.println(sText);
-            Thread.sleep(2000);
-        }
-    }
-
-    private boolean isOrderCreatedSuccessfully() throws Exception {
+    private boolean isOrderCreatedSuccessfully() {
         WebDriverWait wait = new WebDriverWait(this.driver, 15);
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(this.deleteButtonSelector)));
@@ -56,26 +45,26 @@ public class HomePage {
         return true;
     }
 
-    public HomePage open(String url) throws InterruptedException {
+    public HomePage open(String url) {
         driver.get(url);
         WebDriverWait wait = new WebDriverWait(this.driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(this.headingSelector)));
         return this;
     }
 
-    public HomePage setCheckinDate(String checkinDate) throws InterruptedException {
+    public HomePage setCheckinDate(String checkinDate) {
         WebElement dateBox = driver.findElement(By.cssSelector(this.checkinDateSelector));
         dateBox.sendKeys(checkinDate);
         // now get the checkInDate and wait until it is set to expected value
-        this.waitForJS("return document.getElementById('checkin').value;", checkinDate);
+        util.waitForJS(driver,"return document.getElementById('checkin').value;", checkinDate);
         dateBox.sendKeys(Keys.ENTER);
         return this;
     }
 
-    public HomePage setCheckoutDate(String checkoutDate) throws InterruptedException {
+    public HomePage setCheckoutDate(String checkoutDate) {
         WebElement dateBox = driver.findElement(By.cssSelector(this.checkoutDateSelector));
         dateBox.sendKeys(checkoutDate);
-        this.waitForJS("return document.getElementById('checkout').value;", checkoutDate);
+        util.waitForJS(driver, "return document.getElementById('checkout').value;", checkoutDate);
         return this;
     }
 
@@ -103,7 +92,7 @@ public class HomePage {
         return this;
     }
 
-    public void saveBooking() throws Exception {
+    public void saveBooking() {
         WebElement element = driver.findElement(By.cssSelector(this.saveButtonSelector));
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
         element.click();

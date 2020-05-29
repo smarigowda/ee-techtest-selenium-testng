@@ -1,0 +1,18 @@
+package com.ee.santosh;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+
+public class Utility {
+
+    public void waitForJS(WebDriver driver, String jsCode, String expectedValue) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        for(int i=0; i < 10; i++) {
+            String sText =  js.executeScript(jsCode).toString();
+            if(sText.equals(expectedValue)) {
+                break;
+            }
+            System.out.println(sText);
+        }
+    }
+}
