@@ -16,4 +16,10 @@ public class Utility {
             Thread.sleep(1000);
         }
     }
+
+    public String runJS(WebDriver driver, String jsCode) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String sText = js.executeScript(jsCode).toString();
+        return sText;
+    }
 }

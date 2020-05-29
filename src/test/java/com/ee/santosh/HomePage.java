@@ -18,9 +18,11 @@ public class HomePage {
     String saveButtonSelector = "input[type=button]";
     String deleteButtonSelector = "input[value=Delete]";
     Utility util = new Utility();
+    WebDriverWait wait;
 
     HomePage(WebDriver driver) {
         this.driver = driver;
+        wait = new WebDriverWait(this.driver, 600000);
     }
 
     public HomePage deleteOrder() {
@@ -35,7 +37,6 @@ public class HomePage {
     }
 
     private boolean isOrderCreatedSuccessfully() {
-        WebDriverWait wait = new WebDriverWait(this.driver, 15);
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(this.deleteButtonSelector)));
         } catch (Exception e) {
@@ -45,9 +46,18 @@ public class HomePage {
         return true;
     }
 
+    private void waitUntilSave() {
+        wait.until((WebDriver driver) -> {
+            WebElement saveButton = driver.findElement(By.cssSelector(this.saveButtonSelector));
+            ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", saveButton);
+            saveButton.click();
+            String firstname = util.runJS(driver, "return document.getElementById('firstname').value;");
+            return firstname.equals("");
+        });
+    }
+
     public HomePage open(String url) {
         driver.get(url);
-        WebDriverWait wait = new WebDriverWait(this.driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(this.headingSelector)));
         return this;
     }
@@ -55,7 +65,6 @@ public class HomePage {
     public HomePage setCheckinDate(String checkinDate) throws InterruptedException {
         WebElement dateBox = driver.findElement(By.cssSelector(this.checkinDateSelector));
         dateBox.sendKeys(checkinDate);
-        // now get the checkInDate and wait until it is set to expected value
         util.waitForJS(driver,"return document.getElementById('checkin').value;", checkinDate);
         dateBox.sendKeys(Keys.ENTER);
         return this;
@@ -65,38 +74,46 @@ public class HomePage {
         WebElement dateBox = driver.findElement(By.cssSelector(this.checkoutDateSelector));
         dateBox.sendKeys(checkoutDate);
         util.waitForJS(driver, "return document.getElementById('checkout').value;", checkoutDate);
+        dateBox.sendKeys(Keys.ENTER);
         return this;
     }
 
-    public HomePage setFirstName(String firstName) {
+    public HomePage setFirstName(String firstName) throws InterruptedException {
         WebElement element = driver.findElement(By.cssSelector(this.firstNameSelector));
         element.sendKeys(firstName);
+        util.waitForJS(driver, "return document.getElementById('firstname').value;", firstName);
         return this;
     }
 
-    public HomePage setLastName(String lastName) {
+    public HomePage setLastName(String lastName) throws InterruptedException {
         WebElement element = driver.findElement(By.cssSelector(this.surnameSelector));
         element.sendKeys(lastName);
+        util.waitForJS(driver,"return document.getElementById('lastname').value;", lastName);
         return this;
     }
 
-    public HomePage setTotalPrice(String  totalPrice) {
+    public HomePage setTotalPrice(String  totalPrice) throws InterruptedException {
         WebElement element = driver.findElement(By.cssSelector(this.totalpriceSelector));
         element.sendKeys(totalPrice);
+        util.waitForJS(driver,"return document.getElementById('totalprice').value;", totalPrice);
         return this;
     }
 
     public HomePage setDeposit(String isPaid) {
         Select depositSelector = new Select(driver.findElement(By.cssSelector(this.depositpaidSelector)));
         depositSelector.selectByVisibleText(isPaid);
+
+        wait.until((WebDriver dr1) -> {
+            String selectedOption = depositSelector.getFirstSelectedOption().getText();
+            return selectedOption.equals(isPaid);
+        });
         return this;
     }
 
-    public void saveBooking() {
-        WebElement element = driver.findElement(By.cssSelector(this.saveButtonSelector));
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
-        element.click();
+    public HomePage saveBooking() {
+        this.waitUntilSave();
         boolean isOrderCreated = this.isOrderCreatedSuccessfully();
         Assert.assertEquals(isOrderCreated, true);
+        return this;
     }
 }
