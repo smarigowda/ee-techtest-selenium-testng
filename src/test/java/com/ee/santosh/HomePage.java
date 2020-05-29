@@ -48,17 +48,20 @@ public class HomePage {
     public HomePage verifyOrderCountToBe(int expectedCount) throws Exception {
         int i = 0;
         int totalAttempts = 10;
+        int actualCount = 0;
         do {
             try {
                 List<WebElement> el = driver.findElements(By.cssSelector(this.deleteButtonSelector));
-                if(el.size() == expectedCount) {
+                actualCount = el.size();
+                if(actualCount == expectedCount) {
                     return this;
                 }
             } catch (Exception e) {
                 System.out.println("retrying method ...");
             }
-            Thread.sleep(250);
+            Thread.sleep(500);
         } while(++i < totalAttempts);
+        Assert.assertEquals(actualCount, expectedCount);
         if( i == totalAttempts) {
             throw new Exception("verifyOrderCount failed...!");
         }
