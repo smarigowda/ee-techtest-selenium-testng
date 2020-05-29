@@ -52,7 +52,7 @@ public class HomePage {
         return this;
     }
 
-    public HomePage setCheckinDate(String checkinDate) {
+    public HomePage setCheckinDate(String checkinDate) throws InterruptedException {
         WebElement dateBox = driver.findElement(By.cssSelector(this.checkinDateSelector));
         dateBox.sendKeys(checkinDate);
         // now get the checkInDate and wait until it is set to expected value
@@ -61,7 +61,7 @@ public class HomePage {
         return this;
     }
 
-    public HomePage setCheckoutDate(String checkoutDate) {
+    public HomePage setCheckoutDate(String checkoutDate) throws InterruptedException {
         WebElement dateBox = driver.findElement(By.cssSelector(this.checkoutDateSelector));
         dateBox.sendKeys(checkoutDate);
         util.waitForJS(driver, "return document.getElementById('checkout').value;", checkoutDate);

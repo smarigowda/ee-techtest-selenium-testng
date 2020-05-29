@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 
 public class Utility {
 
-    public void waitForJS(WebDriver driver, String jsCode, String expectedValue) {
+    public void waitForJS(WebDriver driver, String jsCode, String expectedValue) throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         for(int i=0; i < 10; i++) {
             String sText =  js.executeScript(jsCode).toString();
@@ -13,6 +13,7 @@ public class Utility {
                 break;
             }
             System.out.println(sText);
+            Thread.sleep(1000);
         }
     }
 }
