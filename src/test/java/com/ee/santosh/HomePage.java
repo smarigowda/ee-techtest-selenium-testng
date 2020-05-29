@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 public class HomePage {
     WebDriver driver;
@@ -44,15 +45,15 @@ public class HomePage {
         }
     }
 
-    private HomePage waitForOrderToBeDisplayed() throws Exception {
+    private boolean isOrderCreatedSuccessfully() throws Exception {
         WebDriverWait wait = new WebDriverWait(this.driver, 15);
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(this.deleteButtonSelector)));
         } catch (Exception e) {
-            System.out.println("Order not found. This is an issue to be worried about.");
-            throw new Exception("Unable to save the order. Please check the log");
+            System.out.println("Unable to save the order. Please check the log");
+            return false;
         }
-        return this;
+        return true;
     }
 
     public HomePage open(String url) throws InterruptedException {
@@ -106,6 +107,7 @@ public class HomePage {
         WebElement element = driver.findElement(By.cssSelector(this.saveButtonSelector));
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
         element.click();
-        this.waitForOrderToBeDisplayed();
+        boolean isOrderCreated = this.isOrderCreatedSuccessfully();
+        Assert.assertEquals(isOrderCreated, true);
     }
 }
