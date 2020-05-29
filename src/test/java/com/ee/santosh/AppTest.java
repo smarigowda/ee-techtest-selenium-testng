@@ -17,6 +17,9 @@ public class AppTest {
         driver.manage().deleteAllCookies();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         homePage = new HomePage(driver);
+        homePage
+                .open(url)
+                .deleteAllOrders();
     }
     @AfterClass
     public void afterAllTestsRun() {
@@ -30,25 +33,23 @@ public class AppTest {
     public void afterTest() {
 
     }
-    @Test
+    @Test(enabled=true)
     public void Test_1_book_a_hotel_with_deposit() throws Exception {
         homePage
-                .open(url)
                 .setCheckoutDate("2020-05-28")
                 .setFirstName("Santosh")
                 .setLastName("Marigowda")
                 .setTotalPrice("100")
                 .setDeposit("true")
                 .setCheckinDate("2020-05-20")
-                .saveBooking();
-
-        // Uncomment to see the final result visually, remove in real test
-        // Thread.sleep(2000);
+                .saveBooking()
+                .verifyOrderCountToBe(1)
+                .deleteOrder()
+                .verifyOrderCountToBe(0);
     }
     @Test(enabled=true)
     public void Test_2_book_a_hotel_without_deposit() throws Exception {
         homePage
-                .open(url)
                 .setCheckoutDate("2020-05-28")
                 .setFirstName("Santosh")
                 .setLastName("Marigowda")
@@ -56,25 +57,22 @@ public class AppTest {
                 .setDeposit("false")
                 .setCheckinDate("2020-05-20")
                 .saveBooking()
-                .deleteOrder();
-        // Uncomment to see the final result visually, remove in real test
-        // Thread.sleep(2000);
+                .verifyOrderCountToBe(1)
+                .deleteOrder()
+                .verifyOrderCountToBe(0);
     }
     @Test(enabled=true)
     public void Test_3_book_two_hotels() throws Exception {
         homePage
-                .open(url)
                 .setCheckoutDate("2020-05-28")
                 .setFirstName("Santosh")
                 .setLastName("Marigowda")
                 .setTotalPrice("100")
                 .setDeposit("false")
                 .setCheckinDate("2020-05-20")
-                .saveBooking();
-        // Uncomment to see the final result visually, remove in real test
-        // Thread.sleep(2000);
+                .saveBooking()
+                .verifyOrderCountToBe(1);
         homePage
-                .open(url)
                 .setCheckoutDate("2020-05-28")
                 .setFirstName("Dattatreya")
                 .setLastName("Sakrepatna")
@@ -82,9 +80,9 @@ public class AppTest {
                 .setDeposit("true")
                 .setCheckinDate("2020-04-20")
                 .saveBooking()
+                .verifyOrderCountToBe(2)
                 .deleteOrder()
-                .deleteOrder();
-        // Uncomment to see the final result visually, remove in real test
-        // Thread.sleep(2000);
+                .deleteOrder()
+                .verifyOrderCountToBe(0);
     }
 }

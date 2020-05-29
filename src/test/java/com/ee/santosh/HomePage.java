@@ -3,8 +3,11 @@ package com.ee.santosh;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import java.util.List;
 
 public class HomePage {
     WebDriver driver;
@@ -15,7 +18,7 @@ public class HomePage {
     String surnameSelector = "#lastname";
     String totalpriceSelector = "#totalprice";
     String depositpaidSelector = "#depositpaid";
-    String saveButtonSelector = "input[type=button]";
+    String saveButtonSelector = "input[value=' Save ']";
     String deleteButtonSelector = "input[value=Delete]";
     Utility util = new Utility();
     WebDriverWait wait;
@@ -36,6 +39,30 @@ public class HomePage {
         return this;
     }
 
+    public HomePage deleteAllOrders() {
+        List<WebElement> el = driver.findElements(By.cssSelector(this.deleteButtonSelector));
+        for ( WebElement e : el ) {
+            e.click();
+        }
+        return this;
+    }
+
+    public HomePage verifyOrderCountToBe(int expectedCount) throws InterruptedException {
+        int i = 0;
+        do {
+            try {
+                List<WebElement> el = driver.findElements(By.cssSelector(this.deleteButtonSelector));
+                if(el.size() == expectedCount) {
+                    return this;
+                }
+            } catch (Exception e) {
+                System.out.println("retrying method ...");
+            }
+            Thread.sleep(2000);
+        } while(++i < 5);
+        return this;
+    }
+
     private boolean isOrderCreatedSuccessfully() {
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(this.deleteButtonSelector)));
@@ -49,7 +76,7 @@ public class HomePage {
     private void waitUntilSave() {
         wait.until((WebDriver driver) -> {
             WebElement saveButton = driver.findElement(By.cssSelector(this.saveButtonSelector));
-            ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", saveButton);
+            // ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", saveButton);
             saveButton.click();
             String firstname = util.runJS(driver, "return document.getElementById('firstname').value;");
             return firstname.equals("");
@@ -114,6 +141,11 @@ public class HomePage {
         this.waitUntilSave();
         boolean isOrderCreated = this.isOrderCreatedSuccessfully();
         Assert.assertEquals(isOrderCreated, true);
+        return this;
+    }
+
+    public HomePage waitFor(long milliSeconds) throws InterruptedException {
+        Thread.sleep(milliSeconds);
         return this;
     }
 }
