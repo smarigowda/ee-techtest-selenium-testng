@@ -38,9 +38,7 @@ public class stepDefinitions {
         driver = new ChromeDriver();
         driver.manage().deleteAllCookies();
         homePage = new HomePage(driver);
-        homePage
-                .open(url)
-                .deleteAllOrders();
+        homePage.open(url);
     }
 
     @When("^User provides all the details with deposit true$")
@@ -78,6 +76,12 @@ public class stepDefinitions {
     public void user_deletes_the_booking() {
         System.out.println("User deleted the booking");
         homePage.deleteOrder();
+    }
+
+    @Given("^User Deletes all the orders$")
+    public void user_deletes_all_the_orders() throws InterruptedException {
+        System.out.println("User deletes all the orders");
+        homePage.deleteAllOrders();
     }
 
     @After
