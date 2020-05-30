@@ -22,7 +22,7 @@ public class HomePage {
     private Utility util = new Utility();
     private WebDriverWait wait;
 
-    HomePage(WebDriver driver) {
+    public HomePage(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(this.driver, 120000);
     }
