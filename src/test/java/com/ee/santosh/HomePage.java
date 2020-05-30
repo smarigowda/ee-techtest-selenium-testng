@@ -94,10 +94,9 @@ public class HomePage {
         return this;
     }
 
-    public HomePage setCheckinDate(String checkinDate) throws InterruptedException {
+    public HomePage setCheckinDate(String checkinDate) {
         WebElement dateBox = driver.findElement(By.cssSelector(this.checkinDateSelector));
         dateBox.sendKeys(checkinDate);
-//        util.waitForJS(driver,"return document.getElementById('checkin').value;", checkinDate);
         dateBox.sendKeys(Keys.ENTER);
         wait.until(ExpectedConditions.attributeToBe(dateBox, "value", checkinDate));
         return this;
@@ -112,21 +111,21 @@ public class HomePage {
         return this;
     }
 
-    public HomePage setFirstName(String firstName) throws InterruptedException {
+    public HomePage setFirstName(String firstName) {
         WebElement element = driver.findElement(By.cssSelector(this.firstNameSelector));
         element.sendKeys(firstName);
         wait.until(ExpectedConditions.attributeToBe(element, "value", firstName));
         return this;
     }
 
-    public HomePage setLastName(String lastName) throws InterruptedException {
+    public HomePage setLastName(String lastName) {
         WebElement element = driver.findElement(By.cssSelector(this.surnameSelector));
         element.sendKeys(lastName);
         wait.until(ExpectedConditions.attributeToBe(element, "value", lastName));
         return this;
     }
 
-    public HomePage setTotalPrice(String  totalPrice) throws InterruptedException {
+    public HomePage setTotalPrice(String  totalPrice) {
         WebElement element = driver.findElement(By.cssSelector(this.totalpriceSelector));
         element.sendKeys(totalPrice);
         wait.until(ExpectedConditions.attributeToBe(element, "value", totalPrice));
