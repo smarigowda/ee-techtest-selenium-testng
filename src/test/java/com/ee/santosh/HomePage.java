@@ -79,6 +79,7 @@ public class HomePage {
     }
 
     private void waitUntilSave() {
+        // demo to show we can use a lambda function and also JS code can be run from within the lambda function.
         wait.until((WebDriver driver) -> {
             WebElement saveButton = driver.findElement(By.cssSelector(this.saveButtonSelector));
             saveButton.click();
@@ -96,14 +97,16 @@ public class HomePage {
     public HomePage setCheckinDate(String checkinDate) throws InterruptedException {
         WebElement dateBox = driver.findElement(By.cssSelector(this.checkinDateSelector));
         dateBox.sendKeys(checkinDate);
-        util.waitForJS(driver,"return document.getElementById('checkin').value;", checkinDate);
+//        util.waitForJS(driver,"return document.getElementById('checkin').value;", checkinDate);
         dateBox.sendKeys(Keys.ENTER);
+        wait.until(ExpectedConditions.attributeToBe(dateBox, "value", checkinDate));
         return this;
     }
 
     public HomePage setCheckoutDate(String checkoutDate) throws InterruptedException {
         WebElement dateBox = driver.findElement(By.cssSelector(this.checkoutDateSelector));
         dateBox.sendKeys(checkoutDate);
+        // Demo to show that we can run a JS code from inside the test
         util.waitForJS(driver, "return document.getElementById('checkout').value;", checkoutDate);
         dateBox.sendKeys(Keys.ENTER);
         return this;
@@ -112,21 +115,21 @@ public class HomePage {
     public HomePage setFirstName(String firstName) throws InterruptedException {
         WebElement element = driver.findElement(By.cssSelector(this.firstNameSelector));
         element.sendKeys(firstName);
-        util.waitForJS(driver, "return document.getElementById('firstname').value;", firstName);
+        wait.until(ExpectedConditions.attributeToBe(element, "value", firstName));
         return this;
     }
 
     public HomePage setLastName(String lastName) throws InterruptedException {
         WebElement element = driver.findElement(By.cssSelector(this.surnameSelector));
         element.sendKeys(lastName);
-        util.waitForJS(driver,"return document.getElementById('lastname').value;", lastName);
+        wait.until(ExpectedConditions.attributeToBe(element, "value", lastName));
         return this;
     }
 
     public HomePage setTotalPrice(String  totalPrice) throws InterruptedException {
         WebElement element = driver.findElement(By.cssSelector(this.totalpriceSelector));
         element.sendKeys(totalPrice);
-        util.waitForJS(driver,"return document.getElementById('totalprice').value;", totalPrice);
+        wait.until(ExpectedConditions.attributeToBe(element, "value", totalPrice));
         return this;
     }
 
@@ -134,6 +137,7 @@ public class HomePage {
         Select depositSelector = new Select(driver.findElement(By.cssSelector(this.depositpaidSelector)));
         depositSelector.selectByVisibleText(isPaid);
 
+        // Demo to show that a lambda function can be used inside wait.until
         wait.until((WebDriver dr1) -> {
             String selectedOption = depositSelector.getFirstSelectedOption().getText();
             return selectedOption.equals(isPaid);
