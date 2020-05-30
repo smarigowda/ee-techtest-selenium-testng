@@ -1,6 +1,10 @@
 package com.ee.santosh;
 
-import org.openqa.selenium.*;
+import com.jayway.restassured.RestAssured;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -40,18 +44,34 @@ public class HomePage {
     public HomePage deleteAllOrders() throws InterruptedException {
 
         // Send a request to http://hotel-test.equalexperts.io/booking
-        // If the response is an empty array then there are no orders to be deleted
-        // If the response is not an empty array then there are some orders to be
-        // deleted. It may take some time to display the orders on the screen,
-        // so wait until the orders are displayed.
+        // If the response is an empty array then there are no bookings to be deleted
+        // If the response is not an empty array then there are some bookings.
+        //
+        // Application is taking some time to display the bookings on the screen,
+        // Wait until the orders are displayed only if there are any history of bookings.
 
-        // I will write RESTAssured Code here
-        // And replace the wait time.
-        // Thread.sleep(3000);
+        String response = RestAssured
+                            .given()
+                            .when().get("http://hotel-test.equalexperts.io/booking")
+                            .then()
+                                .extract()
+                                .response()
+                                .asString();
 
-        List<WebElement> el = driver.findElements(By.cssSelector(this.deleteButtonSelector));
-        for ( WebElement e : el ) {
-            e.click();
+        if(!response.equals("[]")) {
+            System.out.println("There are some previous bookings, so wait until the orders are displayed on the home screen");
+
+            // Wait until the orders are displayed on the screen
+            wait.until((WebDriver driver) -> {
+                List<WebElement> el = driver.findElements(By.cssSelector(this.deleteButtonSelector));
+                return el.size() > 0;
+            });
+
+            List<WebElement> el = driver.findElements(By.cssSelector(this.deleteButtonSelector));
+
+            for ( WebElement e : el ) {
+                e.click();
+            }
         }
         return this;
     }
