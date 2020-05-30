@@ -9,18 +9,18 @@ import org.testng.Assert;
 import java.util.List;
 
 public class HomePage {
-    WebDriver driver;
-    String headingSelector = ".jumbotron";
-    String checkinDateSelector = "#checkin";
-    String checkoutDateSelector = "#checkout";
-    String firstNameSelector = "#firstname";
-    String surnameSelector = "#lastname";
-    String totalpriceSelector = "#totalprice";
-    String depositpaidSelector = "#depositpaid";
-    String saveButtonSelector = "input[value=' Save ']";
-    String deleteButtonSelector = "input[value=Delete]";
-    Utility util = new Utility();
-    WebDriverWait wait;
+    private WebDriver driver;
+    private String headingSelector = ".jumbotron";
+    private String checkinDateSelector = "#checkin";
+    private String checkoutDateSelector = "#checkout";
+    private String firstNameSelector = "#firstname";
+    private String surnameSelector = "#lastname";
+    private String totalpriceSelector = "#totalprice";
+    private String depositpaidSelector = "#depositpaid";
+    private String saveButtonSelector = "input[value=' Save ']";
+    private String deleteButtonSelector = "input[value=Delete]";
+    private Utility util = new Utility();
+    private WebDriverWait wait;
 
     HomePage(WebDriver driver) {
         this.driver = driver;
