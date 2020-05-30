@@ -12,6 +12,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/*
+   Description
+   -----------
+   This is the main Class which runs all the tests
+   There is only one page, HomePage
+   Page Object pattern is used to abstract all the actions and verifications required for the Home Page
+   Methods which are not specific to Home Page are pulled into a Utility class.
+   Data is stored in a json file, which makes it easy to maintain test data.
+*/
+
 public class AppTest {
     private final String url = "http://hotel-test.equalexperts.io/";
     private final String jsonDataFile = "src/test/java/com/ee/santosh/data.json";
@@ -48,6 +58,8 @@ public class AppTest {
         // This is a placeholder.
         // Code which needs to be run after a test goes here
     }
+
+    // This test checks if the user is able to book a hotel with deposit (Deposit = true), and delete the booking.
     @Test(enabled=true)
     public void Test_1_book_a_hotel_with_deposit() throws Exception {
         DataItem dataItem = data.getTest_1().getData().get(0);
@@ -63,6 +75,7 @@ public class AppTest {
                 .deleteOrder()
                 .verifyOrderCountToBe(0);
     }
+    // This test checks if the user is able to book a hotel without a deposit (Deposit = false), and delete the booking.
     @Test(enabled=true)
     public void Test_2_book_a_hotel_without_deposit() throws Exception {
         DataItem dataItem = data.getTest_2().getData().get(0);
@@ -78,6 +91,7 @@ public class AppTest {
                 .deleteOrder()
                 .verifyOrderCountToBe(0);
     }
+    // This test checks if the user is able to book two hotels, and delete both bookings.
     @Test(enabled=true)
     public void Test_3_book_two_hotels() throws Exception {
         DataItem dataItem;
