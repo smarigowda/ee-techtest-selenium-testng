@@ -37,7 +37,18 @@ public class HomePage {
         return this;
     }
 
-    public HomePage deleteAllOrders() {
+    public HomePage deleteAllOrders() throws InterruptedException {
+
+        // Send a request to http://hotel-test.equalexperts.io/booking
+        // If the response is an empty array then there are no orders to be deleted
+        // If the response is not an empty array then there are some orders to be
+        // deleted. It may take some time to display the orders on the screen,
+        // so wait until the orders are displayed.
+
+        // I will write RESTAssured Code here
+        // And replace the wait time.
+        // Thread.sleep(3000);
+
         List<WebElement> el = driver.findElements(By.cssSelector(this.deleteButtonSelector));
         for ( WebElement e : el ) {
             e.click();

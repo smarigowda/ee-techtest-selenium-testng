@@ -4,6 +4,8 @@ import com.ee.santosh.HomePage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pojo.classes.Data;
+import com.pojo.classes.DataItem;
+import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -24,7 +26,7 @@ public class stepDefinitions {
     private Data data;
 
     @Given("^User opens the application$")
-    public void user_opens_the_application() throws IOException {
+    public void user_opens_the_application() throws IOException, InterruptedException {
 
         System.out.println("User Opens the Application");
         data = new Data();
@@ -36,22 +38,50 @@ public class stepDefinitions {
         driver = new ChromeDriver();
         driver.manage().deleteAllCookies();
         homePage = new HomePage(driver);
-        homePage.open(url);
-        driver.close();
+        homePage
+                .open(url)
+                .deleteAllOrders();
     }
 
     @When("^User provides all the details with deposit true$")
-    public void user_provides_all_the_details_with_deposit_true() {
-        System.out.println("^User provides all the details with deposit true$");
+    public void user_provides_all_the_details_with_deposit_true() throws Exception {
+        System.out.println("User provides all the details with deposit true");
+        DataItem dataItem = data.getTest_1().getData().get(0);
+        homePage
+                .setCheckoutDate(dataItem.getCheckoutDate())
+                .setFirstName(dataItem.getFirstname())
+                .setLastName(dataItem.getLastname())
+                .setTotalPrice(dataItem.getTotalPrice())
+                .setDeposit(dataItem.getDeposit())
+                .setCheckinDate(dataItem.getCheckinDate());
     }
 
     @When("^User Saves the booking$")
     public void user_saves_the_booking() {
-        System.out.println("^User Saves the booking$");
+        System.out.println("User Saves the booking");
+        homePage.saveBooking();
     }
 
-    @Then("^Booking should be saved successfully$")
-    public void booking_should_be_saved_successfully() {
-        System.out.println("^Booking should be saved successfully$");
+    @Then("^User sees one booking saved successfully$")
+    public void user_sees_one_booking_saved_successfully() throws Exception {
+        System.out.println("User sees one booking saved successfully");
+        homePage.verifyOrderCountToBe(1);
+    }
+
+    @Then("^User sees the booking successfully deleted$")
+    public void user_sees_the_booking_successfully_deleted() throws Exception {
+        System.out.println("User sees the booking successfully deleted");
+        homePage.verifyOrderCountToBe(0);
+    }
+
+    @Then("^User deletes the booking$")
+    public void user_deletes_the_booking() {
+        System.out.println("User deleted the booking");
+        homePage.deleteOrder();
+    }
+
+    @After
+    public void endOfScenario() {
+        driver.close();
     }
 }

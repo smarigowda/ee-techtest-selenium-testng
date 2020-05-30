@@ -29,7 +29,7 @@ public class AppTest {
     private HomePage homePage;
     private Data data;
     @BeforeClass
-    public void beforeClass() throws IOException {
+    public void beforeClass() throws IOException, InterruptedException {
 
         data = new Data();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

@@ -1,6 +1,15 @@
 Feature: Hotel Booking
-  Scenario: User books hotel with deposit
+  Background: Open the application in browser
     Given User opens the application
+  Scenario: User books hotel with deposit
     When User provides all the details with deposit true
     And User Saves the booking
-    Then Booking should be saved successfully
+    Then User sees one booking saved successfully
+    And User deletes the booking
+    And User sees the booking successfully deleted
+  Scenario: User books hotel without deposit
+    When User provides all the details with deposit true
+    And User Saves the booking
+    Then User sees one booking saved successfully
+    And User deletes the booking
+    And User sees the booking successfully deleted
