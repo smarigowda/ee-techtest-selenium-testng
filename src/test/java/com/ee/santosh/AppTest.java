@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 
 public class AppTest {
     private final String url = "http://hotel-test.equalexperts.io/";
-    private final String jsonDataFile = "/Users/santosh/SAN/github/ee-techtest-selenium-testng/src/test/java/com/ee/santosh/data.json";
+    private final String jsonDataFile = "src/test/java/com/ee/santosh/data.json";
     private WebDriver driver;
     private HomePage homePage;
     private Data data;
@@ -29,7 +29,6 @@ public class AppTest {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().deleteAllCookies();
-//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         homePage = new HomePage(driver);
         homePage
                 .open(url)
