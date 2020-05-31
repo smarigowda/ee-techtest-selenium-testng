@@ -24,7 +24,7 @@ import java.nio.file.Paths;
 
 public class AppTest {
     private final String url = "http://hotel-test.equalexperts.io/";
-    private final String jsonDataFile = "src/test/java/com/ee/santosh/data.json";
+    private final String jsonDataFile = "src/test/resources/data/data.json";
     private WebDriver driver;
     private HomePage homePage;
     private Data data;
