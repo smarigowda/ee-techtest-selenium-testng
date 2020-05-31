@@ -18,6 +18,5 @@
 - Run the test
 `mvn test -Dtest=AppTest`
 - Test should run successfully.
-- Report should be displayed on the console
-- An HTML report will be generated, it is stored in folder `ee-techtest-selenium-cucumber-junit/htmlreport`
-- Open the index.html in the Browser to see the report in detail
+- I have not implemented any reporting for this solution
+- I have implemented the HTML reporting in my BDD Approach solution
