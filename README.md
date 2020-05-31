@@ -1,5 +1,5 @@
 # EE Tech Test Solution
-## Approach TDD
+## Approach: TDD - Test Driven Development
 
 ### Prerequisites
 
