@@ -9,7 +9,9 @@ import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.cucumber.junit.Cucumber;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+@RunWith(Cucumber.class)
 public class stepDefinitions {
 
     private final String url = "http://hotel-test.equalexperts.io/";
@@ -78,7 +81,7 @@ public class stepDefinitions {
         homePage.deleteOrder();
     }
 
-    @Given("^User Deletes all the orders$")
+    @Given("^User Deletes all the bookings$")
     public void user_deletes_all_the_orders() throws InterruptedException {
         System.out.println("User deletes all the orders");
         homePage.deleteAllOrders();

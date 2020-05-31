@@ -5,7 +5,7 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/java/com/feature", glue="src/test/java/com/stepDefinitions")
+@CucumberOptions(features = "src/main/test/resources/cucumber")
 public class JunitCucumber {
-// This class can be empty
+    /* This class can be empty */
 }
